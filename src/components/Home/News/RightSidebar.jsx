@@ -20,12 +20,12 @@ const RightSidebar = () => {
       <div className="space-y-3">
         <h2 className="text-xl font-semibold text-gray-800">Login With</h2>
         <div className="flex flex-col gap-3">
-          <button className="flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-blue-400 text-blue-500 rounded-lg font-medium transition-all hover:bg-blue-50 active:scale-95">
+          <button className="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-blue-400 text-blue-500 rounded-lg font-medium transition-all hover:bg-blue-50 active:scale-95">
             <FaGoogle />
             <span>Login with Google</span>
           </button>
 
-          <button className="flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-gray-800 text-gray-800 rounded-lg font-medium transition-all hover:bg-gray-800 hover:text-white active:scale-95">
+          <button className="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-gray-800 text-gray-800 rounded-lg font-medium transition-all hover:bg-gray-800 hover:text-white active:scale-95">
             <FaGithub />
             <span>Login with GitHub</span>
           </button>
