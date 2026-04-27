@@ -44,15 +44,11 @@ const page = async () => {
       </div>
 
       <div className="col-span-2">
-        <h1 className="text-[#403F3F] text-xl font-semibold">
+        <h1 className="text-[#403F3F] text-xl font-semibold mb-3">
           Dragon News Home
         </h1>
 
         <div className="md:col-span-2">
-          <h2 className="text-[#403F3F] text-xl font-bold mb-5 italic">
-            Dragon News Home
-          </h2>
-
           <div className="flex flex-col gap-8">
             {news.length > 0 ? (
               news.map((item) => (
