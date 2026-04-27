@@ -2,7 +2,6 @@
 import LeftSidebar from "@/components/Home/News/LeftSidebar";
 import RightSidebar from "@/components/Home/News/RightSidebar";
 import React from "react";
-
 import { FaRegBookmark, FaShareAlt, FaRegEye, FaStar } from "react-icons/fa";
 import Link from "next/link";
 
@@ -10,7 +9,6 @@ const getCategoriesData = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/news/categories",
   );
-  if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 };
 
@@ -18,19 +16,23 @@ const getNewsData = async (id) => {
   const res = await fetch(
     `https://openapi.programming-hero.com/api/news/category/${id}`,
   );
-  if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 };
 
-const page = async ({ params }) => {
+const CategoryPage = async ({ params }) => {
   const { id } = await params;
-  const categoriesData = await getCategoriesData();
+
+  const [categoriesData, newsData] = await Promise.all([
+    getCategoriesData(),
+    getNewsData(id),
+  ]);
+
   const categories = categoriesData.data.news_category;
-  const newsData = await getNewsData(id);
   const news = newsData.data;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 container mx-auto px-4 py-6">
+      {/* বাম পাশ: LeftSidebar */}
       <div className="md:col-span-1">
         <LeftSidebar categories={categories} activeCategory={id} />
       </div>
@@ -39,7 +41,6 @@ const page = async ({ params }) => {
         <h2 className="text-[#403F3F] text-xl font-bold mb-5 italic">
           Dragon News Home
         </h2>
-
         <div className="flex flex-col gap-8">
           {news.length > 0 ? (
             news.map((item) => (
@@ -69,65 +70,44 @@ const page = async ({ params }) => {
                     <FaShareAlt />
                   </div>
                 </div>
-
                 <div className="p-4">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4 hover:text-orange-500 transition-colors cursor-pointer leading-tight">
+                  <h2 className="text-xl font-bold text-gray-800 mb-4">
                     {item.title}
                   </h2>
-                  <div className="relative w-full h-75 mb-4">
-                    <img
-                      src={item.image_url}
-                      alt="news-thumbnail"
-                      className="w-full h-full object-cover rounded-md"
-                    />
-                  </div>
-
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  <img
+                    src={item.image_url}
+                    alt="thumbnail"
+                    className="w-full h-75 object-cover rounded-md mb-4"
+                  />
+                  <p className="text-gray-600 text-sm mb-4">
                     {item.details.slice(0, 250)}...
                   </p>
                   <Link
                     href={`/news/${item._id}`}
-                    className="text-orange-500 font-bold hover:underline"
+                    className="text-orange-500 font-bold"
                   >
                     Read More
                   </Link>
-
                   <hr className="my-5 border-gray-200" />
-
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between text-gray-500">
                     <div className="flex items-center gap-2 text-orange-400">
-                      <div className="flex">
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                      </div>
-                      <span className="text-gray-600 font-medium">
-                        {item.rating?.number}
-                      </span>
+                      <FaStar /> {item.rating?.number}
                     </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <FaRegEye className="text-lg" />
-                      <span className="font-medium">
-                        {item.total_view || 0}
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <FaRegEye /> {item.total_view || 0}
                     </div>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div className="p-10 text-center border rounded-lg bg-gray-50">
-              <h2 className="text-2xl font-bold text-gray-400 italic">
-                No news found in this category!
-              </h2>
+            <div className="p-10 text-center border rounded-lg">
+              No news found in this category!
             </div>
           )}
         </div>
       </div>
 
-      {/* Right Sidebar */}
       <div className="md:col-span-1">
         <RightSidebar />
       </div>
@@ -135,4 +115,4 @@ const page = async ({ params }) => {
   );
 };
 
-export default page;
+export default CategoryPage;

@@ -7,17 +7,17 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between container mx-auto py-5 px-4">
       {/* 1. Left Spacer (keeps nav links centered) */}
-      <div className="hidden md:block w-[150px]"></div>
+      <div className="hidden md:block w-37.5"></div>
 
       {/* 2. Central Navigation Links */}
-      <ul className="flex items-center gap-6 text-[#706F6F] font-medium">
-        <li className="hover:text-[#D72050] transition-colors">
+      <ul className="flex items-center gap-8">
+        <li>
           <NavLink href="/">Home</NavLink>
         </li>
-        <li className="hover:text-[#D72050] transition-colors">
+        <li>
           <NavLink href="/about">About</NavLink>
         </li>
-        <li className="hover:text-[#D72050] transition-colors">
+        <li>
           <NavLink href="/career">Career</NavLink>
         </li>
       </ul>
